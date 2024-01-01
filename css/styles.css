@@ -1,0 +1,68 @@
+/* ==== COMMON ==== */
+
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: #434455;
+  background-color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+
+}
+
+button {
+  font-family: inherit;
+  color: currentColor;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1158px;
+  height: 100vh;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 20px 24px;
+  flex-wrap: wrap;
+  padding: 24px 24px;
+  height: 100vh;
+}
+
+.gallery-item {
+  max-width: 360px;
+  flex-basis: calc((100% - 2 * 24px) / 3);
+}
+
+.gallery-image {
+  cursor: pointer;
+  object-fit: cover;
+  height: 100%;
+}
+
+.lightbox-image {
+
+  object-fit: cover;
+  height: 100%;
+}
