@@ -79,6 +79,10 @@ const galleryList = Array.from(
 </li>`,
 );
 
+document.oncontextmenu = (event) => {
+	event.preventDefault();
+};
+
 gallery.insertAdjacentHTML('afterbegin', _.shuffle(galleryList).join('\n\n'));
 gallery.onclick = (event) => {
 	event.preventDefault();
@@ -99,8 +103,7 @@ gallery.onclick = (event) => {
 							instance.close();
 						}
 					};
-					document.oncontextmenu = (event) => {
-						event.preventDefault();
+					document.oncontextmenu = () => {
 						instance.close();
 					};
 				},
