@@ -103,7 +103,8 @@ gallery.onclick = (event) => {
 							instance.close();
 						}
 					};
-					document.oncontextmenu = () => {
+					document.oncontextmenu = (event) => {
+						event.preventDefault();
 						instance.close();
 					};
 				},
