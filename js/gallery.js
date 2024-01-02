@@ -65,12 +65,9 @@ const images = [
 ];
 
 const gallery = document.querySelector('.gallery');
-let galleryList;
-let x = 5;
-
-galleryList = Array.from(
+const galleryList = Array.from(
   { length: images.length },
-  (x, i) => `<li class="gallery-item">
+  (_, i) => `<li class="gallery-item">
   <a class="gallery-link" href="${images[i].original}">
     <img
       class="gallery-image"
@@ -82,17 +79,30 @@ galleryList = Array.from(
 </li>`,
 );
 
-gallery.insertAdjacentHTML('afterbegin', galleryList.join('\n\n'));
-gallery.onclick = e => {
-  e.preventDefault();
-  console.log(e.target.getAttribute('alt'));
+gallery.insertAdjacentHTML('afterbegin', _.shuffle(galleryList).join('\n\n'));
+gallery.onclick = event => {
+  event.preventDefault();
 
-  if (e.target.nodeName === 'IMG') {
-    const imgLightBox = `<img
-                        width="1112"
-                        height="640"
-                        src="${e.target.dataset.source}"
-                        alt="${e.target.getAttribute('alt')}">`;
-    basicLightbox.create(imgLightBox, { className: 'lightbox-image' }).show();
+  if (event.target.nodeName === 'IMG') {
+    const imageLightbox = `<img
+                        style="border-radius: 5px;"
+                        src="${event.target.dataset.source}"
+                        alt="${event.target.getAttribute('alt')}">`;
+    basicLightbox
+      .create(imageLightbox, {
+        className: 'lightbox-image',
+        onShow: instance => {
+          document.onkeydown = event => {
+            if (event.key === 'Escape') {
+              instance.close();
+            }
+          };
+          document.oncontextmenu = event => {
+            event.preventDefault();
+            instance.close();
+          };
+        },
+      })
+      .show();
   }
 };
