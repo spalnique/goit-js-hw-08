@@ -86,6 +86,8 @@ gallery.onclick = event => {
   if (event.target.nodeName === 'IMG') {
     const imageLightbox = `<img
                         style="border-radius: 5px;"
+                        width="360px"
+                        height="200px"
                         src="${event.target.dataset.source}"
                         alt="${event.target.getAttribute('alt')}">`;
     basicLightbox

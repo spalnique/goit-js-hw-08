@@ -35,8 +35,8 @@ button {
 }
 
 .container {
+  padding: 16px;
   margin: 0 auto;
-  max-width: 1158px;
   height: 100vh;
 }
 
@@ -46,7 +46,7 @@ button {
   align-content: center;
   gap: 20px 24px;
   flex-wrap: wrap;
-  padding: 24px 24px;
+  padding: 24px 0;
   height: 100vh;
 }
 
