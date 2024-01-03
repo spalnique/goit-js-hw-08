@@ -64,9 +64,30 @@ const images = [
 	},
 ];
 
+let instance;
+
+function closeOnEscape(e) {
+	if (e.key === 'Escape' && instance) {
+		instance.close();
+	}
+}
+
+function disableContextMenu(e) {
+	if (instance) {
+		e.preventDefault();
+		instance.close();
+	}
+}
+
 const gallery = document.querySelector('.gallery');
-const galleryList = Array.from(
-	{ length: images.length },
+
+gallery.addEventListener('contextmenu', (e) => {
+	if (e.target.nodeName === 'IMG') {
+		e.preventDefault();
+	}
+});
+
+const galleryList = images.map(
 	(_, i) => `<li class="gallery-item">
   <a class="gallery-link" href="${images[i].original}">
     <img
@@ -79,36 +100,30 @@ const galleryList = Array.from(
 </li>`,
 );
 
-document.oncontextmenu = (event) => {
-	event.preventDefault();
-};
+gallery.insertAdjacentHTML('afterbegin', galleryList.join('\n\n'));
 
-gallery.insertAdjacentHTML('afterbegin', _.shuffle(galleryList).join('\n\n'));
-gallery.onclick = (event) => {
-	event.preventDefault();
-
-	if (event.target.nodeName === 'IMG') {
-		const imageLightbox = `<img
-                        style="border-radius: 5px;"
-                        width="360px"
-                        height="200px"
-                        src="${event.target.dataset.source}"
-                        alt="${event.target.getAttribute('alt')}">`;
-		basicLightbox
-			.create(imageLightbox, {
-				className: 'lightbox-image',
-				onShow: (instance) => {
-					document.onkeydown = (event) => {
-						if (event.key === 'Escape') {
-							instance.close();
-						}
-					};
-					document.oncontextmenu = (event) => {
-						event.preventDefault();
-						instance.close();
-					};
-				},
-			})
-			.show();
+gallery.addEventListener('click', (e) => {
+	if (e.target.nodeName !== 'IMG') {
+		return;
 	}
-};
+	e.preventDefault();
+	const imageLightbox = `<img
+                        width="1112"
+                        height="640"
+                        src="${e.target.dataset.source}"
+                        alt="${e.target.getAttribute('alt')}">`;
+
+	instance = basicLightbox.create(imageLightbox, {
+		className: 'lightbox-image',
+		onShow: () => {
+			document.addEventListener('keydown', closeOnEscape);
+			document.addEventListener('contextmenu', disableContextMenu);
+		},
+		onClose: () => {
+			document.removeEventListener('keydown', closeOnEscape);
+			document.removeEventListener('contextmenu', disableContextMenu);
+		},
+	});
+
+	instance.show();
+});
