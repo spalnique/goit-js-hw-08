@@ -105,11 +105,11 @@ function createLightbox(e) {
 		className: 'lightbox-image',
 		onShow: () => {
 			document.addEventListener('keydown', closeOnEscapeButton);
-			document.addEventListener('contextmenu', disableContextMenu);
+			instance.element().addEventListener('contextmenu', disableContextMenu);
 		},
 		onClose: () => {
 			document.removeEventListener('keydown', closeOnEscapeButton);
-			document.removeEventListener('contextmenu', disableContextMenu);
+			instance.element().removeEventListener('contextmenu', disableContextMenu);
 		},
 	});
 	instance.show();
