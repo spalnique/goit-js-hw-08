@@ -107,3 +107,4 @@ dist
 .tern-port
 js/test-gallery.js
 test-index.html
+css/test-styles.css
