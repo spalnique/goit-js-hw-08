@@ -66,27 +66,7 @@ const images = [
 
 let instance;
 
-function closeOnEscape(e) {
-	if (e.key === 'Escape' && instance) {
-		instance.close();
-	}
-}
-
-function disableContextMenu(e) {
-	if (instance) {
-		e.preventDefault();
-		instance.close();
-	}
-}
-
 const gallery = document.querySelector('.gallery');
-
-gallery.addEventListener('contextmenu', (e) => {
-	if (e.target.nodeName === 'IMG') {
-		e.preventDefault();
-	}
-});
-
 const galleryList = images.map(
 	(_, i) => `<li class="gallery-item">
   <a class="gallery-link" href="${images[i].original}">
@@ -100,30 +80,45 @@ const galleryList = images.map(
 </li>`,
 );
 
-gallery.insertAdjacentHTML('afterbegin', galleryList.join('\n\n'));
+function closeOnEscapeButton(e) {
+	if (e.key === 'Escape') {
+		instance.close();
+	}
+}
 
-gallery.addEventListener('click', (e) => {
+function disableContextMenu(e) {
+	e.preventDefault();
+	instance.close();
+}
+
+function createLightbox(e) {
+	e.preventDefault();
 	if (e.target.nodeName !== 'IMG') {
 		return;
 	}
-	e.preventDefault();
 	const imageLightbox = `<img
                         width="1112"
                         height="640"
                         src="${e.target.dataset.source}"
                         alt="${e.target.getAttribute('alt')}">`;
-
 	instance = basicLightbox.create(imageLightbox, {
 		className: 'lightbox-image',
 		onShow: () => {
-			document.addEventListener('keydown', closeOnEscape);
+			document.addEventListener('keydown', closeOnEscapeButton);
 			document.addEventListener('contextmenu', disableContextMenu);
 		},
 		onClose: () => {
-			document.removeEventListener('keydown', closeOnEscape);
+			document.removeEventListener('keydown', closeOnEscapeButton);
 			document.removeEventListener('contextmenu', disableContextMenu);
 		},
 	});
-
 	instance.show();
+}
+
+gallery.insertAdjacentHTML('afterbegin', galleryList.join('\n\n'));
+gallery.addEventListener('click', createLightbox);
+document.addEventListener('contextmenu', (e) => {
+	if (e.target.nodeName === 'IMG') {
+		e.preventDefault();
+	}
 });
