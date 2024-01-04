@@ -44,7 +44,7 @@ button {
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	gap: 20px 24px;
+	gap: 24px;
 	flex-wrap: wrap;
 	padding: 16px 0;
 	height: 100vh;

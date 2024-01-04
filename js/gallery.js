@@ -68,13 +68,13 @@ let instance;
 
 const gallery = document.querySelector('.gallery');
 const galleryList = images.map(
-	(_, i) => `<li class="gallery-item">
-  <a class="gallery-link" href="${images[i].original}">
+	(item) => `<li class="gallery-item">
+  <a class="gallery-link" href="${item.original}">
     <img
       class="gallery-image"
-      src="${images[i].preview}"
-      data-source="${images[i].original}"
-      alt="${images[i].description}"
+      src="${item.preview}"
+      data-source="${item.original}"
+      alt="${item.description}"
     />
   </a>
 </li>`,
